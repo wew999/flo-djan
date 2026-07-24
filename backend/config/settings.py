@@ -42,10 +42,8 @@ INSTALLED_APPS = [
     'users'
 
 ]
-# Разрешаем передачу куки и заголовков авторизации (это прямое решение вашей ошибки)
 CORS_ALLOW_CREDENTIALS = True
 
-# Явно указываем адрес вашего фронтенда (Vite по умолчанию может использовать http или https)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://localhost:5173",
@@ -53,7 +51,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://127.0.0.1:5173",
 ]
 
-# Если вы также используете методы, отличные от GET/POST, убедитесь, что они разрешены (обычно это по умолчанию, но можно явно указать):
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',

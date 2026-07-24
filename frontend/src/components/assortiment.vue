@@ -114,7 +114,7 @@ function send2server() {
   //if (usrname) {
     order.username = 'обама'
     const req = new XMLHttpRequest()
-    req.open("post", "http://127.0.0.1:8000/postuser/")
+    req.open("POST", "http://127.0.0.1:8000/postuser")
     const yepy = JSON.stringify(order)
     console.log(`${order} ===== ${yepy}`)
     req.send(yepy)
