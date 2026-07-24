@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Регистрация</h1>'
+<form method="post" action="postuser/" >
+    {% csrf_token %}
+    <fieldset>
+        <input type="text" class="inpl" name="loginar" placeholder="Логин">
+        </fieldset>
+    <fieldset>
+        <input type="text" class="inpl" name="password" placeholder="Пароль">
+        </fieldset>
+    <fieldset>
+        <input type="text" class="inpl" name="adress" placeholder="Адрес">
+    </fieldset>
+    <button type="submit" id="submitexpert">Подтвердить</button>
+    <p id="syia"></p>
+    </form>
+</body>
+</html>

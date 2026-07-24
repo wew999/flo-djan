@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+@layer components {
+    .center {
+        @apply flex items-center justify-center
+    }
+    .photo {
+        @apply text-xs flex
+    }
+    /*НИЖЕ ТЕМЫ*/
+    .garden {
+        @apply bg-emerald-900 text-emerald-50
+    }
+    .garden.eerie {
+        @apply bg-radial from-emerald-700 from-50% to-emerald-800 text-emerald-50
+    }
+    .garden footer {
+        @apply bg-emerald-950 text-emerald-50
+    }
+    .garden nav {
+        @apply bg-emerald-950 text-emerald-50
+    }
+    .garden button {
+        @apply  bg-radial from-emerald-700 from-40% to-emerald-950 text-emerald-50 rounded-2xl text-2xl;
+        &:hover {
+            @media (hover: hover) {
+                @apply bg-radial from-emerald-500 from-40% to-emerald-900 ;
+            }
+        }
+        &:focus {
+            @media (hover: hover) {
+                @apply bg-radial from-emerald-400 from-40% to-emerald-800;
+            }
+        }
+    }
+    .garden li a{
+        &:hover {
+            @media (hover: hover) {
+                @apply bg-emerald-800 ;
+            }
+        }
+        &:focus {
+            @media (hover: hover) {
+                @apply bg-emerald-500;
+            }
+        }
+    }
+    .garden header {
+        @apply bg-emerald-950 text-emerald-50 border-2 border-mist-200
+    }
+    .garden select {
+        @apply bg-emerald-800 text-emerald-50
+    }
+    .garden input{
+        @apply bg-emerald-950 text-emerald-50;
+        &:hover {
+            @media (hover: hover) {
+                @apply bg-emerald-800 ;
+            }
+        }
+        &:focus {
+            @media (hover: hover) {
+                @apply bg-emerald-700;
+            }
+        }
+    }
+}
+.oasis {
+    @apply bg-orange-800 text-orange-50
+}
+.oasis.eerie {
+    @apply bg-radial from-orange-500 from-50% to-orange-700 text-emerald-50
+}
+.oasis button {
+    @apply  bg-radial from-orange-500 from-40% to-orange-800 text-emerald-50 rounded-2xl text-2xl;
+    &:hover {
+        @media (hover: hover) {
+            @apply bg-radial from-orange-400 from-40% to-orange-700 ;
+        }
+    }
+    &:focus {
+        @media (hover: hover) {
+            @apply bg-radial from-orange-300 from-40% to-orange-600 ;
+        }
+    }
+}
+.oasis footer {
+    @apply bg-orange-800 text-emerald-50
+}
+.oasis nav {
+    @apply bg-orange-900 text-emerald-50
+}
+.oasis header {
+    @apply bg-orange-900 text-orange-50 border-2 border-teal-400
+}
+.oasis select {
+    @apply bg-orange-500 text-orange-50
+}
+.oasis input{
+    @apply bg-teal-700 text-orange-50;
+    &:hover {
+        @media (hover: hover) {
+            @apply bg-teal-600 ;
+        }
+    }
+    &:focus {
+        @media (hover: hover) {
+            @apply bg-teal-500;
+        }
+    }
+}
+.volcano {
+    @apply bg-teal-800 text-teal-50
+}
+.volcano.eerie {
+    @apply bg-radial from-teal-500 from-50% to-teal-700 text-emerald-50
+}
+.volcano button {
+    @apply  bg-radial from-teal-500 from-40% to-teal-800 text-emerald-50 rounded-2xl text-2xl;
+    &:hover {
+        @media (hover: hover) {
+            @apply bg-radial from-teal-400 from-40% to-teal-700 ;
+        }
+    }
+    &:focus {
+        @media (hover: hover) {
+            @apply bg-radial from-teal-300 from-40% to-teal-600 ;
+        }
+    }
+}
+.volcano footer {
+    @apply bg-teal-700 text-emerald-50
+}
+.volcano nav {
+    @apply bg-teal-700 text-emerald-50
+}
+.volcano header {
+    @apply bg-teal-700 text-teal-50 border-2 border-orange-400
+}
+.volcano select {
+    @apply bg-teal-500 text-teal-50
+}
+.volcano input{
+    @apply bg-orange-700 text-teal-50;
+    &:hover {
+        @media (hover: hover) {
+            @apply bg-orange-600 ;
+        }
+    }
+    &:focus {
+        @media (hover: hover) {
+            @apply bg-orange-500;
+        }
+    }
+}
+.lipstic {
+    @apply bg-pink-800 text-pink-50
+}
+.lipstic.eerie {
+    @apply bg-radial from-pink-500 from-50% to-pink-700 text-emerald-50
+}
+.lipstic button {
+    @apply  bg-radial from-pink-500 from-40% to-pink-800 text-emerald-50 rounded-2xl text-2xl;
+    &:hover {
+        @media (hover: hover) {
+            @apply bg-radial from-pink-400 from-40% to-pink-700 ;
+        }
+    }
+    &:focus {
+        @media (hover: hover) {
+            @apply bg-radial from-pink-300 from-40% to-pink-600 ;
+        }
+    }
+}
+.lipstic footer {
+    @apply bg-pink-700 text-emerald-50
+}
+.lipstic nav {
+    @apply bg-pink-700 text-emerald-50
+}
+.lipstic header {
+    @apply bg-pink-700 text-pink-50 border-2 border-lime-400
+}
+.lipstic select {
+    @apply bg-pink-500 text-pink-50
+}
+.lipstic input{
+    @apply bg-lime-700 text-pink-50;
+    &:hover {
+        @media (hover: hover) {
+            @apply bg-lime-600 ;
+        }
+    }
+    &:focus {
+        @media (hover: hover) {
+            @apply bg-lime-500;
+        }
+    }
+}
+.poison {
+    @apply bg-lime-800 text-lime-50
+}
+.poison.eerie {
+    @apply bg-radial from-lime-500 from-50% to-lime-700 text-emerald-50
+}
+.poison button {
+    @apply  bg-radial from-lime-500 from-40% to-lime-800 text-emerald-50 rounded-2xl text-2xl;
+    &:hover {
+        @media (hover: hover) {
+            @apply bg-radial from-lime-400 from-40% to-lime-700 ;
+        }
+    }
+    &:focus {
+        @media (hover: hover) {
+            @apply bg-radial from-lime-300 from-40% to-lime-600 ;
+        }
+    }
+}
+.poison footer {
+    @apply bg-lime-700 text-emerald-50
+}
+.poison nav {
+    @apply bg-lime-700 text-emerald-50
+}
+.poison header {
+    @apply bg-lime-700 text-lime-50 border-2 border-pink-400
+}
+.poison select {
+    @apply bg-lime-500 text-lime-50
+}
+.poison input{
+    @apply bg-pink-700 text-lime-50;
+    &:hover {
+        @media (hover: hover) {
+            @apply bg-pink-600 ;
+        }
+    }
+    &:focus {
+        @media (hover: hover) {
+            @apply bg-pink-500;
+        }
+    }
+}
+
+@theme {
+    --color-mint-500: oklch(0.72 0.11 178);
+}
