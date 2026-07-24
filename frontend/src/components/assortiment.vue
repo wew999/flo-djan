@@ -39,6 +39,9 @@
 <script setup>
 import { ref, watch, onMounted  } from 'vue'
 import {themeMemory} from "../composables/themec.js";
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
 
 let abt = ref(null)
 let potverd = ref(null)
@@ -106,24 +109,27 @@ function changebutton(event) {
   event.target.replaceWith(ddiv)
 }
 function send2server() {
-  const usrname = sessionStorage.getItem('username')
-  console.log(usrname)
-  if (usrname) {
-    order.username = usrname
+ // const usrname = sessionStorage.getItem('username')
+  //console.log(usrname)
+  //if (usrname) {
+    order.username = 'обама'
     const req = new XMLHttpRequest()
-    req.open("post", "https://localhost:3000/blogpost")
+    req.open("post", "http://127.0.0.1:8000/postuser/")
     const yepy = JSON.stringify(order)
     console.log(`${order} ===== ${yepy}`)
     req.send(yepy)
     req.onload = () => {
       console.log(req.response)
+      if (req.response === "LOGIN, PLEASE?") {
+        router.replace("https://localhost:5173/#/login")
+      }
     }
-  } else {
-      let pt = document.createElement('p')
-      const ptContent = document.createTextNode("Вы не зарегестрированы!");
-      pt.appendChild(ptContent)
-      karma.value.replaceWith(pt)
-    }
+ // } else {
+  //    let pt = document.createElement('p')
+  //    const ptContent = document.createTextNode("Вы не зарегестрированы!");
+   //   pt.appendChild(ptContent)
+   //   karma.value.replaceWith(pt)
+   // }
 }
 
 const orden = document.getElementsByClassName('orden')

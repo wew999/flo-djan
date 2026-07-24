@@ -1,6 +1,6 @@
 from django.utils.deprecation import MiddlewareMixin
 from django.shortcuts import redirect
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -13,4 +13,4 @@ class JwtComparerMiddleware(MiddlewareMixin):
             if cookie_value != 'undefined':
                 return redirect('thrash')
             else:
-                return redirect('/login')
+                return HttpResponse("LOGIN, PLEASE?")

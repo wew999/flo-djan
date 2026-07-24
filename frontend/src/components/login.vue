@@ -4,6 +4,8 @@ import {onMounted, ref, watch} from "vue";
 //import jwt from 'jsonwebtoken'
 //import 'jsonwebtoken'
 
+
+
 let abt = ref(null)
 onMounted(() => {
   abt.value.className = `${scorn.value} eerie`
@@ -41,6 +43,7 @@ function texton() {
   req.open("POST", "http://127.0.0.1:8000/postuser/")
   req.withCredentials = true;
   req.setRequestHeader('Content-Type', 'application/json');
+  console.log(bruh)
   req.send(bruh)
   req.onload = () => {
     console.log(req.response)

@@ -25,9 +25,10 @@ def thrash(request):
         return render(request, "index.html")
 
 def login(request):
-    return render(request, "login.vue")
+    return render(request, "index.html")
 
 def postuser(request):
+    print(request)
     json.loads(request)
     print(request)
     """
