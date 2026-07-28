@@ -2,15 +2,24 @@ from django.utils.deprecation import MiddlewareMixin
 from django.shortcuts import redirect
 from django.http import HttpResponseBadRequest, HttpResponse
 from django.contrib.auth import get_user_model
-
+import json
 User = get_user_model()
 
 class JwtComparerMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        if request.path != ' https://localhost:5173/login' and request.path != 'https://localhost:5173/quit':
+        uro = False
+        upo = json.loads(request.body)
+        try:
+            print(upo['login'])
+        except:
+            uro = True
+        if uro == True:
             cookie_value = request.COOKIES.get('my_cookie', 'undefined')
             print(cookie_value)
             if cookie_value != 'undefined':
-                return redirect('thrash')
+                print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
             else:
-                return HttpResponse(request.path)
+                return HttpResponse('REDIRTOLOGIN')
+        else :
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+

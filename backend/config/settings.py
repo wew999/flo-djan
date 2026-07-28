@@ -44,12 +44,26 @@ INSTALLED_APPS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 
+SESSION_COOKIE_SAMESITE = 'None'
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://localhost:5173",
     "http://127.0.0.1:5173",
     "https://127.0.0.1:5173",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://localhost:5173",
+    "http://localhost:5173",
+    "https://127.0.0.1:5173",
+    "http://127.0.0.1:5173",
+]
+
+CSRF_COOKIE_SAMESITE = 'Lax'  # Или 'None', если используете строгий кросс-домен
+CSRF_COOKIE_SECURE = False    # Оставьте False для http://localhost, True только для https://
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = False
 
 CORS_ALLOW_METHODS = [
     'DELETE',

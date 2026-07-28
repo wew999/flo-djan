@@ -2,6 +2,9 @@ from django.shortcuts import render
 from users.models import logData
 import json
 import jwt
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views import View
 
 secret_key = 'tenfeettwentytheflowerman'
 
@@ -27,31 +30,39 @@ def thrash(request):
 def login(request):
     return render(request, "index.html")
 
+@csrf_exempt
 def postuser(request):
-    print(request)
-    json.loads(request)
-    print(request)
-    """
-    ustInfo = logData.objects.all()
-    for us in ustInfo :
-        if loginbl == us.username:
-            return HttpResponse("<h1>ассортимент</h1>")
-    print(f"{loginbl} == {passwordbl} == {adressbl} !!!!!!!!!!!!!!!!!!!!!!")
-    usInfo = logData.objects.create(username=loginbl, password=passwordbl, address=adressbl)
-    usInfo.save()
-    token_object = {
-        "username": f"{loginbl}",
-        "password": f"{passwordbl}",
-        "address": f"{adressbl}"
-    }
-    print(token_object)
-    token = create_token(token_object)
-    print(token)
-    response = HttpResponse("Yo!")
-    response.set_cookie('my_cookie', token, max_age=3600, httponly=True)
-    return response
-    return HttpResponse(f"<h1>{token}</h1>")
-    """
+    print(request.body)
+    copium = json.loads(request.body)
+    isSpecial = True
+    try:
+        print(copium['special'])
+    except:
+        isSpecial = False
+    if isSpecial == False:
+        loginbl = copium['login']
+        passwordbl = copium['password']
+        adressbl = copium['adresl']
+        ustInfo = logData.objects.all()
+        for us in ustInfo :
+            if loginbl == us.username:
+                return HttpResponse("<h1>ассортимент</h1>")
+        print(f"{loginbl} == {passwordbl} == {adressbl} !!!!!!!!!!!!!!!!!!!!!!")
+        usInfo = logData.objects.create(username=loginbl, password=passwordbl, address=adressbl)
+        usInfo.save()
+        token_object = {
+            "username": f"{loginbl}",
+            "password": f"{passwordbl}",
+            "address": f"{adressbl}"
+        }
+        print(token_object)
+        token = create_token(token_object)
+        print(token)
+        response = HttpResponse("Yo!")
+        response.set_cookie('my_cookie', token, max_age=3600, httponly=True, samesite="None", path="/",  secure=True)
+        return response
+    else:
+        return HttpResponse("JWT CHECKED!")
 
 def quit(request):
     return render(request, "quit.html")

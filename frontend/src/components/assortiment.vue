@@ -39,9 +39,19 @@
 <script setup>
 import { ref, watch, onMounted  } from 'vue'
 import {themeMemory} from "../composables/themec.js";
-import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const jwrpeq = new XMLHttpRequest()
+jwrpeq.open("POST", "http://127.0.0.1:8000/postuser/")
+const mmsg = {special:"redirect"}
+const mmd = JSON.stringify(mmsg)
+jwrpeq.withCredentials = true;
+jwrpeq.setRequestHeader('Content-Type', 'application/json');
+jwrpeq.send(mmd)
+jwrpeq.onload = () => {
+  console.log(jwrpeq.response)
+  if (jwrpeq.response === "REDIRTOLOGIN") {
+    window.location.replace('https://localhost:5173/#/login')
+  }}
 
 let abt = ref(null)
 let potverd = ref(null)
@@ -120,8 +130,8 @@ function send2server() {
     req.send(yepy)
     req.onload = () => {
       console.log(req.response)
-      if (req.response === "LOGIN, PLEASE?") {
-        router.replace("https://localhost:5173/#/login")
+      if (req.response === "REDIRTOLOGIN") {
+        window.location.replace('https://localhost:5173/#/login')
       }
     }
  // } else {
