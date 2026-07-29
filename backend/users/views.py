@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from users.models import logData
+from users.models import logData, orderData
 import json
 import jwt
 from django.views.decorators.csrf import csrf_exempt
@@ -42,18 +42,17 @@ def postuser(request):
     if isSpecial == False:
         loginbl = copium['login']
         passwordbl = copium['password']
-        adressbl = copium['adresl']
+
         ustInfo = logData.objects.all()
         for us in ustInfo :
             if loginbl == us.username:
                 return HttpResponse("<h1>ассортимент</h1>")
-        print(f"{loginbl} == {passwordbl} == {adressbl} !!!!!!!!!!!!!!!!!!!!!!")
-        usInfo = logData.objects.create(username=loginbl, password=passwordbl, address=adressbl)
+        print(f"{loginbl} == {passwordbl} == !!!!!!!!!!!!!!!!!!!!!!")
+        usInfo = logData.objects.create(username=loginbl, password=passwordbl)
         usInfo.save()
         token_object = {
             "username": f"{loginbl}",
             "password": f"{passwordbl}",
-            "address": f"{adressbl}"
         }
         print(token_object)
         token = create_token(token_object)
@@ -93,3 +92,47 @@ def loluser(request):
     print(usInfo)
     print(f"{usInfo} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     return HttpResponse(f"<p> {bruhArr} =======> Данные бд </p>")
+
+@csrf_exempt
+def postorder(request):
+    copium = json.loads(request.body)
+    isSpecial = True
+    try:
+        print(copium['special'])
+    except:
+        isSpecial = False
+    if isSpecial == True:
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        cookie_value = request.COOKIES.get('my_cookie', 'undefined')
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        print(cookie_value)
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        decoded_token = jwt.decode(cookie_value, 'tenfeettwentytheflowerman', algorithms=['HS256'])
+        print(decoded_token)
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        log1n = decoded_token['username']
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        ustInfo = orderData.objects.filter(user__username=log1n)
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        if not ustInfo.exists():
+            return HttpResponse("Nothingewefwefwf")
+        else:
+           # subsonic= orderData.objects.all()
+           #  for us in subsonic :
+           #      if log1n == us.user__username:
+           #          return HttpResponse(us)
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            return HttpResponse("Сохранено, но я пока не знаю как JSON поле читать")
+    else:
+     #   ress = copium['address']
+        cookie_value = request.COOKIES.get('my_cookie', 'undefined')
+        print(cookie_value)
+        decoded_token = jwt.decode(cookie_value, 'tenfeettwentytheflowerman', algorithms=['HS256'])
+        print(decoded_token)
+        log1n = decoded_token['username']
+        frontInfo = logData.objects.get(username=log1n)
+        print(frontInfo)
+        backInfo = orderData(order=request.body)
+        backInfo.user = frontInfo
+        backInfo.save()
+        return HttpResponse("Сохранено типо")

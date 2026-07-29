@@ -122,17 +122,15 @@ function send2server() {
  // const usrname = sessionStorage.getItem('username')
   //console.log(usrname)
   //if (usrname) {
-    order.username = 'обама'
     const req = new XMLHttpRequest()
-    req.open("POST", "http://127.0.0.1:8000/postuser")
+    req.open("POST", "http://127.0.0.1:8000/postorder/")
     const yepy = JSON.stringify(order)
     console.log(`${order} ===== ${yepy}`)
+    req.withCredentials = true;
+    req.setRequestHeader('Content-Type', 'application/json');
     req.send(yepy)
     req.onload = () => {
       console.log(req.response)
-      if (req.response === "REDIRTOLOGIN") {
-        window.location.replace('https://localhost:5173/#/login')
-      }
     }
  // } else {
   //    let pt = document.createElement('p')

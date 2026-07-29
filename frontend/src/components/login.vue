@@ -31,14 +31,12 @@ onMounted(() => {
 })
 let logi = ref()
 let passw = ref()
-let adres = ref()
 let syia = ref()
 
 function texton() {
   let logO = {}
   logO.login = logi.value
   logO.password = passw.value
-  logO.adresl = adres.value
   let bruh = JSON.stringify(logO)
   const req = new XMLHttpRequest()
   req.open("POST", "http://127.0.0.1:8000/postuser/")
@@ -55,9 +53,6 @@ function texton() {
       case 'PasswordCommonWordError':
         syia.value.textContent='>Поле не должно содержать слово "password"'
         break
-      case 'AdreslCommonWordError':
-        syia.value.textContent='>Поле не должно содержать слово "adresl". Это системное имя.'
-        break
       case 'LoginTooLongError':
         syia.value.textContent='Логин не может быть длинее 30 символов'
         break
@@ -65,7 +60,7 @@ function texton() {
         syia.value.textContent='Пароль не может быть длинее 30 символов'
         break
       case 'PasswordTooShortError':
-        syia.value.textContent='Пароль не может быть короче 10 символов'
+        syia.value.textContent='Пароль не может быть короче 8 символов'
         break
     }
   //  sessionStorage.setItem("username", req.response);
@@ -80,9 +75,6 @@ function texton() {
     </fieldset>
     <fieldset>
       <input type="text" class="inpl" id="password" placeholder="Пароль" v-model="passw">
-    </fieldset>
-    <fieldset>
-      <input type="text" class="inpl" id="password" placeholder="Адрес" v-model="adres">
     </fieldset>
     <button type="submit" id="submitexpert" @click.stop.prevent="texton">Подтвердить</button>
     <p id="syia" ref="syia"></p>

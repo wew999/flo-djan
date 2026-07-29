@@ -96,6 +96,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'users.middleware.JwtComparerMiddleware',
+    'users.middleware.PostorderPathMiddleware',
     'users.middleware.IsValidMiddleware'
 ]
 

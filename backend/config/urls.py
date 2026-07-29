@@ -27,6 +27,7 @@ urlpatterns = [
     path('quit', views.quit),
     path('postuser/', views.postuser),
     path('userpost/', views.userpost),
+    path('postorder/', views.postorder),
     path('loluser/', views.loluser),
     path('', views.index),
 ]

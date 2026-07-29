@@ -25,6 +25,17 @@ jwrpeq.onload = () => {
     window.location.replace('https://localhost:5173/#/login')
   }}
 
+const jwrpeq2 = new XMLHttpRequest()
+jwrpeq2.open("POST", "http://127.0.0.1:8000/postorder/")
+const mmsg2 = {special:"getorders"}
+const mmd2 = JSON.stringify(mmsg2)
+jwrpeq2.withCredentials = true;
+jwrpeq2.setRequestHeader('Content-Type', 'application/json');
+jwrpeq2.send(mmd2)
+jwrpeq2.onload = () => {
+  console.log(jwrpeq2.response)
+  }
+
 
 function get4rmserver() {
   const usrname = sessionStorage.getItem('username')
