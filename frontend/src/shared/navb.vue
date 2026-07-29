@@ -10,7 +10,7 @@
       </li>
       <li><a href="#/">Главная</a></li>
       <li><a href="#/assortiment">Ассортимент</a></li>
-      <li><a href="#/about">Сотрудничество</a></li>
+      <li><a href="#/trash">Корзина</a></li>
       <log />
       <li>
         <label for="referrer">

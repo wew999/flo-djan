@@ -12,6 +12,20 @@ import {ref, onMounted, watch} from "vue"
 
 let karma = ref(null)
 
+const jwrpeq = new XMLHttpRequest()
+jwrpeq.open("POST", "http://127.0.0.1:8000/postuser/")
+const mmsg = {special:"redirect"}
+const mmd = JSON.stringify(mmsg)
+jwrpeq.withCredentials = true;
+jwrpeq.setRequestHeader('Content-Type', 'application/json');
+jwrpeq.send(mmd)
+jwrpeq.onload = () => {
+  console.log(jwrpeq.response)
+  if (jwrpeq.response === "REDIRTOLOGIN") {
+    window.location.replace('https://localhost:5173/#/login')
+  }}
+
+
 function get4rmserver() {
   const usrname = sessionStorage.getItem('username')
   if (usrname) {

@@ -12,7 +12,7 @@ import {ref, computed} from 'vue'
 
 const routes = {
   '/': maini,
-  '/about': trash,
+  '/trash': trash,
   '/assortiment': assortiment,
   '/login': login
 }

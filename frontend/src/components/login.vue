@@ -32,6 +32,7 @@ onMounted(() => {
 let logi = ref()
 let passw = ref()
 let adres = ref()
+let syia = ref()
 
 function texton() {
   let logO = {}
@@ -47,6 +48,26 @@ function texton() {
   req.send(bruh)
   req.onload = () => {
     console.log(req.response)
+    switch (req.response) {
+      case 'LoginCommonWordError':
+        syia.value.textContent='>Поле не должно содержать слово "login"'
+        break
+      case 'PasswordCommonWordError':
+        syia.value.textContent='>Поле не должно содержать слово "password"'
+        break
+      case 'AdreslCommonWordError':
+        syia.value.textContent='>Поле не должно содержать слово "adresl". Это системное имя.'
+        break
+      case 'LoginTooLongError':
+        syia.value.textContent='Логин не может быть длинее 30 символов'
+        break
+      case 'PasswordTooLongError':
+        syia.value.textContent='Пароль не может быть длинее 30 символов'
+        break
+      case 'PasswordTooShortError':
+        syia.value.textContent='Пароль не может быть короче 10 символов'
+        break
+    }
   //  sessionStorage.setItem("username", req.response);
   }
 }
@@ -64,7 +85,7 @@ function texton() {
       <input type="text" class="inpl" id="password" placeholder="Адрес" v-model="adres">
     </fieldset>
     <button type="submit" id="submitexpert" @click.stop.prevent="texton">Подтвердить</button>
-    <p id="syia"></p>
+    <p id="syia" ref="syia"></p>
   </form>
   </div>
 </template>
