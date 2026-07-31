@@ -6,6 +6,12 @@ class logData(models.Model):
 
 class orderData(models.Model):
     user =  models.ForeignKey(logData, on_delete = models.CASCADE)
-    order = models.JSONField()
+    order = models.CharField(max_length=100)
+    identifier =  models.IntegerField()
     address = models.CharField(max_length=100, blank=True)
+
+class productionData(models.Model):
+    heading = models.CharField(max_length=40)
+    info = models.CharField(max_length=1000)
+    price =  models.IntegerField()
 # Create your models here.

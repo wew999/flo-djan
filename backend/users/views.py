@@ -5,6 +5,7 @@ import jwt
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views import View
+import ast
 
 secret_key = 'tenfeettwentytheflowerman'
 
@@ -102,27 +103,26 @@ def postorder(request):
     except:
         isSpecial = False
     if isSpecial == True:
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         cookie_value = request.COOKIES.get('my_cookie', 'undefined')
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         print(cookie_value)
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         decoded_token = jwt.decode(cookie_value, 'tenfeettwentytheflowerman', algorithms=['HS256'])
         print(decoded_token)
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         log1n = decoded_token['username']
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-        ustInfo = orderData.objects.filter(user__username=log1n)
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        ustInfo = orderData.objects.filter(user__username=log1n).values('user', 'order', 'identifier')
+       # orderData.objects.all().delete()
         if not ustInfo.exists():
-            return HttpResponse("Nothingewefwefwf")
+            return HttpResponse("Nothing")
         else:
-           # subsonic= orderData.objects.all()
-           #  for us in subsonic :
-           #      if log1n == us.user__username:
-           #          return HttpResponse(us)
+            # subsonic= orderData.objects.all()
+            #  for us in subsonic :
+            #      if log1n == us.user__username:
+            #          return HttpResponse(us)
+            riksha = ''
+            for orderu in ustInfo:
+                print(orderu['user'], orderu['order'], orderu['identifier'])
+                riksha = ast.literal_eval(orderu['order'])
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            return HttpResponse("Сохранено, но я пока не знаю как JSON поле читать")
+            return HttpResponse(riksha)
     else:
      #   ress = copium['address']
         cookie_value = request.COOKIES.get('my_cookie', 'undefined')
@@ -132,7 +132,13 @@ def postorder(request):
         log1n = decoded_token['username']
         frontInfo = logData.objects.get(username=log1n)
         print(frontInfo)
-        backInfo = orderData(order=request.body)
+        backInfor = orderData.objects.filter( user__username=log1n)
+        iden = 0
+        if backInfor.exists():
+            iden = len(backInfor) + 1
+        else:
+            iden = 1
+        backInfo = orderData(order=request.body, identifier=iden)
         backInfo.user = frontInfo
         backInfo.save()
         return HttpResponse("Сохранено типо")
