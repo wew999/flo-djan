@@ -32,7 +32,6 @@
         <button class="orden" id="monstr4">Заказать</button>
       </figure>
     </div>
-    <button class="text-2xl" ref="potverd">Подтвердить</button>
     <p ref="karma"></p>
   </div>
 </template>
@@ -56,61 +55,41 @@ jwrpeq.onload = () => {
 let abt = ref(null)
 let potverd = ref(null)
 let karma = ref(null)
-onMounted(() => {
-  abt.value.className = `${scorn.value} eerie`
-  watch(scorn, (newVal) => {
-    switch (newVal) {
-      case 'garden':
-        abt.value.className = 'garden eerie'
-        break
-      case 'oasis':
-        abt.value.className = 'oasis eerie'
-        break
-      case 'volcano':
-        abt.value.className = 'volcano eerie'
-        break
-      case 'lipstic':
-        abt.value.className = 'lipstic eerie'
-        break
-      case 'poison':
-        abt.value.className = 'poison eerie'
-        break
-    }
-  })
-})
 
-let order = {}
+
+let order = ref({})
 
 
 function changebutton(event) {
   let kirta = 0
   function add2cart(event) {
     kirta++
-    order[event.target.id] = kirta
-    console.log(order)
+    order.value[event.target.id] = kirta
+    console.log(order.value)
+    pip.textContent= kirta
   }
   function rem4rmcart(event) {
     if(kirta >0) {
       kirta--
-      order[event.target.id] = kirta
-      console.log(order)
+      order.value[event.target.id] = kirta
+      console.log(order.value)
+      pip.textContent= kirta
     }
   }
   kirta++
-  order[event.target.id] = kirta
-  console.log(order)
+  order.value[event.target.id] = kirta
+  console.log(order.value)
   let ddiv = document.createElement('div')
-  let butt = document.createElement('button')
-  const hdngContent = document.createTextNode("В корзину");
   let butt2 = document.createElement('button')
   const hdngContent2 = document.createTextNode("+");
   let butt3 = document.createElement('button')
   const hdngContent3 = document.createTextNode("-");
-  butt.appendChild(hdngContent)
+  let pip = document.createElement('p')
+  pip.textContent= kirta
   butt2.appendChild(hdngContent2)
   butt3.appendChild(hdngContent3)
-  ddiv.appendChild(butt)
   ddiv.appendChild(butt2)
+  ddiv.appendChild(pip)
   ddiv.appendChild(butt3)
   butt2.id = event.target.id
   butt2.addEventListener('click', add2cart)
@@ -124,8 +103,8 @@ function send2server() {
   //if (usrname) {
     const req = new XMLHttpRequest()
     req.open("POST", "http://127.0.0.1:8000/postorder/")
-    const yepy = JSON.stringify(order)
-    console.log(`${order} ===== ${yepy}`)
+    const yepy = JSON.stringify(order.value)
+    console.log(`${order.value} ===== ${yepy}`)
     req.withCredentials = true;
     req.setRequestHeader('Content-Type', 'application/json');
     req.send(yepy)
@@ -150,6 +129,33 @@ console.log(te)
    console.log(te[ord])
    te[ord].addEventListener('click', changebutton)
  }
- potverd.value.addEventListener('click', send2server)
 })
+
+onMounted(() => {
+  watch(order.value, (newVal) => {
+    send2server()
+  })
+  abt.value.className = `${scorn.value} eerie`
+  watch(scorn, (newVal) => {
+    switch (newVal) {
+      case 'garden':
+        abt.value.className = 'garden eerie'
+        break
+      case 'oasis':
+        abt.value.className = 'oasis eerie'
+        break
+      case 'volcano':
+        abt.value.className = 'volcano eerie'
+        break
+      case 'lipstic':
+        abt.value.className = 'lipstic eerie'
+        break
+      case 'poison':
+        abt.value.className = 'poison eerie'
+        break
+    }
+  })
+
+})
+
 </script>

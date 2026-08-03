@@ -103,24 +103,40 @@ def postorder(request):
     except:
         isSpecial = False
     if isSpecial == True:
-        cookie_value = request.COOKIES.get('my_cookie', 'undefined')
-        print(cookie_value)
-        decoded_token = jwt.decode(cookie_value, 'tenfeettwentytheflowerman', algorithms=['HS256'])
-        print(decoded_token)
-        log1n = decoded_token['username']
-        ustInfo = orderData.objects.filter(user__username=log1n).values('user', 'order', 'identifier')
-       # orderData.objects.all().delete()
-        if not ustInfo.exists():
-            return HttpResponse("Nothing")
+        if copium['special'] != 'returnorder':
+            cookie_value = request.COOKIES.get('my_cookie', 'undefined')
+            print(cookie_value)
+            decoded_token = jwt.decode(cookie_value, 'tenfeettwentytheflowerman', algorithms=['HS256'])
+            print(decoded_token)
+            log1n = decoded_token['username']
+            ustInfo = orderData.objects.filter(user__username=log1n).values('user', 'order', 'identifier')
+           # orderData.objects.all().delete()
+            if not ustInfo.exists():
+                return HttpResponse("Nothing")
+            else:
+                # subsonic= orderData.objects.all()
+                #  for us in subsonic :
+                #      if log1n == us.user__username:
+                #          return HttpResponse(us)
+                riksha = ''
+                for orderu in ustInfo:
+                    print(orderu['user'], orderu['order'], orderu['identifier'])
+                    riksha = ast.literal_eval(orderu['order'])
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                return HttpResponse(riksha)
         else:
-            # subsonic= orderData.objects.all()
-            #  for us in subsonic :
-            #      if log1n == us.user__username:
-            #          return HttpResponse(us)
+            cookie_value = request.COOKIES.get('my_cookie', 'undefined')
+            print(cookie_value)
+            decoded_token = jwt.decode(cookie_value, 'tenfeettwentytheflowerman', algorithms=['HS256'])
+            print(decoded_token)
+            log1n = decoded_token['username']
+            backInfor = orderData.objects.filter( user__username=log1n).values('user', 'order', 'identifier')
             riksha = ''
-            for orderu in ustInfo:
+            for orderu in backInfor:
                 print(orderu['user'], orderu['order'], orderu['identifier'])
-                riksha = ast.literal_eval(orderu['order'])
+                if orderu['order'] != "b'{}'":
+                    riksha = ast.literal_eval(orderu['order'])
+                    print(orderu['order'])
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             return HttpResponse(riksha)
     else:
@@ -141,4 +157,7 @@ def postorder(request):
         backInfo = orderData(order=request.body, identifier=iden)
         backInfo.user = frontInfo
         backInfo.save()
+        backInfor = orderData.objects.filter( user__username=log1n).values('user', 'order', 'identifier')
+        for orderu in backInfor:
+            print(orderu['user'], orderu['order'], orderu['identifier'])
         return HttpResponse("Сохранено типо")
