@@ -88,13 +88,14 @@ function changebutton(event) {
   pip.textContent= kirta
   butt2.appendChild(hdngContent2)
   butt3.appendChild(hdngContent3)
-  ddiv.appendChild(butt2)
-  ddiv.appendChild(pip)
   ddiv.appendChild(butt3)
+  ddiv.appendChild(pip)
+  ddiv.appendChild(butt2)
   butt2.id = event.target.id
   butt2.addEventListener('click', add2cart)
   butt3.id = event.target.id
   butt3.addEventListener('click', rem4rmcart)
+  ddiv.className = "flex center"
   event.target.replaceWith(ddiv)
 }
 function send2server() {

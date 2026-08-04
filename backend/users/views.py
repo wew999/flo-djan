@@ -47,7 +47,10 @@ def postuser(request):
         ustInfo = logData.objects.all()
         for us in ustInfo :
             if loginbl == us.username:
-                return HttpResponse("<h1>ассортимент</h1>")
+                usInfo = logData.objects.get(username=loginbl)
+                loginbl = usInfo.username
+                passwordbl = usInfo.password
+
         print(f"{loginbl} == {passwordbl} == !!!!!!!!!!!!!!!!!!!!!!")
         usInfo = logData.objects.create(username=loginbl, password=passwordbl)
         usInfo.save()

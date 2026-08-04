@@ -56,7 +56,7 @@ jwrpeq.onload = () => {
 
 let pipsgit = ref({})
 let kirta = 0
-
+function wow(commando) {
 const jwrpeq2 = new XMLHttpRequest()
 jwrpeq2.open("POST", "http://127.0.0.1:8000/postorder/")
 const mmsg2 = {special:"getorders"}
@@ -70,6 +70,7 @@ jwrpeq2.onload = () => {
     const ordDatar = JSON.parse(jwrpeq2.response)
     console.log(ordDatar)
     const origDiv = document.createElement('div')
+    origDiv.id = "yomama"
     for (const [key, value] of Object.entries(ordDatar)) {
       pipsgit.value[key] = value
       let ddiv = document.createElement('div')
@@ -82,6 +83,7 @@ jwrpeq2.onload = () => {
       const paraContent = document.createTextNode(`Количество: ${value}`);
       hd.className = "text-2xl"
       ddiv.className = "border-b-blue-50 border-2 m-2"
+      ddiv.id="kormaq"
       let butt2 = document.createElement('button')
       const butt2Content = document.createTextNode('+');
       butt2.appendChild(butt2Content)
@@ -104,7 +106,11 @@ jwrpeq2.onload = () => {
       origDiv.appendChild(ddiv)
     }
     origDiv.className = 'center'
-    pipis.value.append(origDiv)
+    if (commando == 'append') {
+      pipis.value.append(origDiv)
+    } else {
+     document.getElementById('yomama').replaceWith(origDiv)
+    }
   } else if (jwrpeq2.response == "{}") {
     const jwrpeq3 = new XMLHttpRequest()
     jwrpeq3.open("POST", "http://127.0.0.1:8000/postorder/")
@@ -157,7 +163,11 @@ jwrpeq2.onload = () => {
     jiorn.value.textContent = "Здесь пока ничего нет! Перейдите в раздел 'Ассортимент', чтобы сделать заказ!"
   }
   }
-  console.log(pipsgit.value)
+  console.log(pipsgit.value)}
+
+
+wow('append')
+
 
   function add2cart(event) {
     kirta = pipsgit.value[event.target.id]
@@ -187,7 +197,8 @@ function send2server() {
   req.setRequestHeader('Content-Type', 'application/json');
   req.send(yepy)
   req.onload = () => {
-    console.log(req.response)
+    console.log("$")
+    wow('replace')
   }}
 
 
