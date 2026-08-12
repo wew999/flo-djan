@@ -32,7 +32,6 @@ onMounted(() => {
 let logi = ref()
 let passw = ref()
 let syia = ref()
-
 function texton() {
   let logO = {}
   logO.login = logi.value

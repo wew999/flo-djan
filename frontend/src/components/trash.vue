@@ -54,6 +54,10 @@ jwrpeq.onload = () => {
     window.location.replace('https://localhost:5173/#/login')
   }}
 
+function paymentredirect() {
+  window.location.replace('https://localhost:5173/#/pay')
+}
+
 let pipsgit = ref({})
 let kirta = 0
 function wow(commando) {
@@ -90,7 +94,6 @@ jwrpeq2.onload = () => {
       let butt3 = document.createElement('button')
       butt2.id = key
       butt3.id = key
-
       const butt3Content = document.createTextNode('-');
       hd.appendChild(hdngContent)
       butt3.appendChild(butt3Content)
@@ -105,6 +108,11 @@ jwrpeq2.onload = () => {
       ddiv.appendChild(butt2)
       origDiv.appendChild(ddiv)
     }
+    let buttord = document.createElement('button')
+    const buttordContent = document.createTextNode('Заказ');
+    buttord.appendChild(buttordContent)
+    buttord.addEventListener('click', paymentredirect)
+    origDiv.appendChild(buttord)
     origDiv.className = 'center'
     if (commando == 'append') {
       pipis.value.append(origDiv)
@@ -127,7 +135,7 @@ jwrpeq2.onload = () => {
         pipsgit.value[key] = value
         let ddiv = document.createElement('div')
         let hd = document.createElement('h1')
-        let pict = document.createElement('img')
+      //  let pict = <img src={imagificate(key)}>
         pict.src = imagificate(key)
         pict.className = "w-50"
         const hdngContent = document.createTextNode(rusificate(key));

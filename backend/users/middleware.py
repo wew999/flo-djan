@@ -7,25 +7,29 @@ import jwt
 
 class JwtComparerMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        uro = False
-        upo = json.loads(request.body)
-        try:
-            print(upo['login'])
-        except:
-            uro = True
-        if uro == True:
-            cookie_value = request.COOKIES.get('my_cookie', 'undefined')
-            print(cookie_value)
-            if cookie_value != 'undefined':
-                print("✅, Переадресация одобрена")
-            else:
-                return HttpResponse('REDIRTOLOGIN')
-        else :
-            print('✅, Запрос регистрации')
+        print(request.body)
+        print('(((((((((((((((((((((((((((((((((((')
+        if request.body != b'':
+            uro = False
+            upo = json.loads(request.body)
+            try:
+                print(upo['login'])
+            except:
+                uro = True
+            if uro == True:
+                cookie_value = request.COOKIES.get('my_cookie', 'undefined')
+                print(cookie_value)
+                if cookie_value != 'undefined':
+                    print("✅, Переадресация одобрена")
+                else:
+                    return HttpResponse('REDIRTOLOGIN')
+            else :
+                print('✅, Запрос регистрации')
 
 
 class IsValidMiddleware(MiddlewareMixin):
     def process_request(self, request):
+        if request.body != b'':
             uro = False
             upo = json.loads(request.body)
             try:
@@ -56,16 +60,17 @@ class IsValidMiddleware(MiddlewareMixin):
 
 class PostorderPathMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        uro = False
-        upo = json.loads(request.body)
-        try:
-            if upo['special'] != 'getorders':
-                uro = True
-        except:
+        if request.body != b'':
             uro = False
-        #=============
-        if uro == True:
-            print('✅, Не запрос получения корзины')
-        else:
-            #request.body = decoded_token
-            print('✅, Запрос пользователя отправлен ')
+            upo = json.loads(request.body)
+            try:
+                if upo['special'] != 'getorders':
+                    uro = True
+            except:
+                uro = False
+            #=============
+            if uro == True:
+                print('✅, Не запрос получения корзины')
+            else:
+                #request.body = decoded_token
+                print('✅, Запрос пользователя отправлен ')

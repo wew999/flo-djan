@@ -2,7 +2,8 @@ from django.db import models
 
 class logData(models.Model):
     username =  models.CharField(max_length=30)
-    password = models.CharField(max_length=30, )
+    password = models.CharField(max_length=30 )
+    isAdmin = models.CharField(max_length=30, blank=True )
 
 class orderData(models.Model):
     user =  models.ForeignKey(logData, on_delete = models.CASCADE)

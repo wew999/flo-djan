@@ -1,6 +1,6 @@
 <template>
   <div class="garden eerie" ref="abt">
-    <div class="text-center center flex">
+    <div class="text-center center flex" ref="omfg">
       <figure>
         <img src="https://www.roza4u.ru/image/cache/catalog/15_roz_Red_Monster_/15_roz_Red_Monster_1-700x700.jpg">
         <h2>Букет роз ред монстр</h2>
@@ -35,9 +35,11 @@
     <p ref="karma"></p>
   </div>
 </template>
-<script setup>
-import { ref, watch, onMounted  } from 'vue'
+<script setup lang="jsx">
+import { ref, watch, onMounted, h, render  } from 'vue'
 import {themeMemory} from "../composables/themec.js";
+
+
 
 const jwrpeq = new XMLHttpRequest()
 jwrpeq.open("POST", "http://127.0.0.1:8000/postuser/")
@@ -55,9 +57,63 @@ jwrpeq.onload = () => {
 let abt = ref(null)
 let potverd = ref(null)
 let karma = ref(null)
-
+let omfg = ref(null)
 
 let order = ref({})
+
+
+
+/////
+/*const  shopreq = new XMLHttpRequest()
+shopreq.open("POST", "http://127.0.0.1:8000/productbase/")
+const shopmmsg = {special:"redirect"}
+const shopmmd = JSON.stringify(shopmmsg)
+shopreq.withCredentials = true;
+shopreq.setRequestHeader('Content-Type', 'application/json');
+shopreq.send(shopmmd)
+shopreq.onload = () => {
+  console.log(shopreq.response)
+  if (shopreq.response === "REDIRTOLOGIN") {
+    window.location.replace('https://localhost:5173/#/login')
+  }} */
+
+function shopcreation(headng, srcc, price) {
+  const stateOneTemplate =
+      h(
+          'div',
+          {},
+            h("img", {src:srcc}), [h("h2", {}, headng),
+          h("div",
+              {},
+              [h("p", {}, price),
+                h("button", {})
+              ])
+          ]
+      )
+  render(stateOneTemplate, omfg.value);
+  ////////////////
+}
+const marketreq = new XMLHttpRequest()
+marketreq.open("GET", "http://127.0.0.1:8000/producttape")
+marketreq.withCredentials = true;
+marketreq.send(null)
+marketreq.onload = () => {
+  if (marketreq.response == "Nothing") {
+    messageWindow.value.innerText = "Пока что здесь нет ни одного товара!"
+  }
+  else {
+    let market = JSON.parse(marketreq.response)
+    for (let ahh of market) {
+      console.log(ahh)
+      shopcreation(ahh.fields.heading, ahh.fields.info, ahh.fields.price)
+    }
+    console.log(marketreq.response)
+  }
+}
+
+
+
+
 
 
 function changebutton(event) {

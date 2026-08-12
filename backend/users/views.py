@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from users.models import logData, orderData
+from users.models import logData, orderData, productionData
 import json
+from django.core import serializers
 import jwt
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -43,17 +44,24 @@ def postuser(request):
     if isSpecial == False:
         loginbl = copium['login']
         passwordbl = copium['password']
-
+        isRepeated = False
         ustInfo = logData.objects.all()
         for us in ustInfo :
             if loginbl == us.username:
-                usInfo = logData.objects.get(username=loginbl)
-                loginbl = usInfo.username
-                passwordbl = usInfo.password
+                if passwordbl == us.password:
+                    usInfo = logData.objects.filter(username=loginbl).first()
+                    loginbl = usInfo.username
+                    passwordbl = usInfo.password
+                    isRepeated = True
+                else:
+                    return HttpResponse("Пароль или логин не совпадают")
+
 
         print(f"{loginbl} == {passwordbl} == !!!!!!!!!!!!!!!!!!!!!!")
         usInfo = logData.objects.create(username=loginbl, password=passwordbl)
-        usInfo.save()
+        if isRepeated == False:
+            usInfo.save()
+
         token_object = {
             "username": f"{loginbl}",
             "password": f"{passwordbl}",
@@ -70,21 +78,6 @@ def postuser(request):
 def quit(request):
     return render(request, "quit.html")
 
-def userpost(request):
-    loginbl = request.POST.get("loginar", "Undefined")
-    passwordbl = request.POST.get("password", "Undefined")
-    ustInfo = logData.objects.all()
-    for us in ustInfo :
-        if loginbl != us.username or passwordbl != us.password:
-            return HttpResponse(f"<h1>Регистрируйся вонючка</h1>")
-    token_object = {
-        "username": f"{loginbl}",
-        "password": f"{passwordbl}",
-    }
-    print(token_object)
-    token = create_token(token_object)
-    print(token)
-    return HttpResponse(f"<h1>{token}</h1>")
 
 
 def loluser(request):
@@ -164,3 +157,39 @@ def postorder(request):
         for orderu in backInfor:
             print(orderu['user'], orderu['order'], orderu['identifier'])
         return HttpResponse("Сохранено типо")
+
+
+@csrf_exempt
+def productbase(request):
+    if request.method == "POST":
+        cookie_value = request.COOKIES.get('my_cookie', 'undefined')
+        print(cookie_value)
+        decoded_token = jwt.decode(cookie_value, 'tenfeettwentytheflowerman', algorithms=['HS256'])
+        print(decoded_token)
+        log1n = decoded_token['username']
+        passw0rd = decoded_token['password']
+        if log1n == 'adminp' and passw0rd == 'admin311':
+            return HttpResponse("ALLOWED")
+        else:
+            return  HttpResponse("NOT ALLOWED")
+
+
+@csrf_exempt
+def product(request):
+    if request.method == "POST":
+        print(request.body)
+        js_on = json.loads(request.body)
+        hdng = js_on['heading']
+        src = js_on['info']
+        prc = js_on['prc']
+        newProd = productionData(heading=hdng, info=src, price=prc)
+        newProd.save()
+        return  HttpResponse("SAVED (ADMIN)")
+    else:
+        newProd = productionData.objects.all()
+        if newProd.exists():
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            newProd = serializers.serialize('json', newProd)
+            return  HttpResponse(newProd)
+        else:
+            return  HttpResponse("Nothing")
