@@ -1,45 +1,16 @@
 <template>
   <div class="garden eerie" ref="abt">
     <div class="text-center center flex" ref="omfg">
-      <figure>
-        <img src="https://www.roza4u.ru/image/cache/catalog/15_roz_Red_Monster_/15_roz_Red_Monster_1-700x700.jpg">
-        <h2>Букет роз ред монстр</h2>
-        <figcaption>500 р.</figcaption>
-        <button class="orden" id="monstr">Заказать</button>
-      </figure>
-      <figure>
-        <img src="https://www.roza4u.ru/image/cache/catalog/15_roz_Red_Monster_/15_roz_Red_Monster_1-700x700.jpg">
-        <h2>Букет роз ред монстр</h2>
-        <figcaption>500 р.</figcaption>
-        <button class="orden" id="monstr1">Заказать</button>
-      </figure>
-      <figure>
-        <img src="https://www.roza4u.ru/image/cache/catalog/15_roz_Red_Monster_/15_roz_Red_Monster_1-700x700.jpg">
-        <h2>Букет роз ред монстр</h2>
-        <figcaption>500 р.</figcaption>
-        <button class="orden" id="monstr2">Заказать</button>
-      </figure>
-      <figure>
-        <img src="https://www.roza4u.ru/image/cache/catalog/15_roz_Red_Monster_/15_roz_Red_Monster_1-700x700.jpg">
-        <h2>Букет роз ред монстр</h2>
-        <figcaption>500 р.</figcaption>
-        <button class="orden" id="monstr3">Заказать</button>
-      </figure>
-      <figure>
-        <img src="https://www.roza4u.ru/image/cache/catalog/15_roz_Red_Monster_/15_roz_Red_Monster_1-700x700.jpg">
-        <h2>Букет роз ред монстр</h2>
-        <figcaption>500 р.</figcaption>
-        <button class="orden" id="monstr4">Заказать</button>
-      </figure>
     </div>
     <p ref="karma"></p>
+    <p ref="messageWindow"></p>
   </div>
 </template>
 <script setup lang="jsx">
 import { ref, watch, onMounted, h, render  } from 'vue'
 import {themeMemory} from "../composables/themec.js";
 
-
+const messageWindow = ref(null)
 
 const jwrpeq = new XMLHttpRequest()
 jwrpeq.open("POST", "http://127.0.0.1:8000/postuser/")
@@ -86,11 +57,52 @@ function shopcreation(headng, srcc, price) {
           h("div",
               {},
               [h("p", {}, price),
-                h("button", {})
+                h("button", {id: headng,
+                  onClick(event) {
+                    let kirta = 0
+                    function add2cart(event) {
+                      kirta++
+                      order.value[event.target.id] = kirta
+                      console.log(order.value)
+                      pip.textContent= kirta
+                    }
+                    function rem4rmcart(event) {
+                      if(kirta >0) {
+                        kirta--
+                        order.value[event.target.id] = kirta
+                        console.log(order.value)
+                        pip.textContent= kirta
+                      }
+                    }
+                    kirta++
+                    order.value[event.target.id] = kirta
+                    console.log(order.value)
+                    let ddiv = document.createElement('div')
+                    let butt2 = document.createElement('button')
+                    const hdngContent2 = document.createTextNode("+");
+                    let butt3 = document.createElement('button')
+                    const hdngContent3 = document.createTextNode("-");
+                    let pip = document.createElement('p')
+                    pip.textContent= kirta
+                    butt2.appendChild(hdngContent2)
+                    butt3.appendChild(hdngContent3)
+                    ddiv.appendChild(butt3)
+                    ddiv.appendChild(pip)
+                    ddiv.appendChild(butt2)
+                    butt2.id = event.target.id
+                    butt2.addEventListener('click', add2cart)
+                    butt3.id = event.target.id
+                    butt3.addEventListener('click', rem4rmcart)
+                    ddiv.className = "flex center"
+                    event.target.replaceWith(ddiv)
+                  }
+                  }, "В корзину")
               ])
           ]
       )
-  render(stateOneTemplate, omfg.value);
+  let ramm = document.createElement("div")
+  render(stateOneTemplate, ramm);
+  omfg.value.appendChild(ramm)
   ////////////////
 }
 const marketreq = new XMLHttpRequest()

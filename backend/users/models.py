@@ -11,7 +11,7 @@ class orderData(models.Model):
     identifier =  models.IntegerField()
     address = models.CharField(max_length=100, blank=True)
 
-class productionData(models.Model):
+class myProductionData(models.Model):
     heading = models.CharField(max_length=40)
     info = models.CharField(max_length=1000)
     price =  models.IntegerField()

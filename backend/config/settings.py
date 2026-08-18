@@ -31,16 +31,17 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+
+
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'mongo_apps.MongoAdminConfig',
+    'mongo_apps.MongoAuthConfig',
+    'mongo_apps.MongoContentTypesConfig',
+    'mongo_apps.MongoSessionsConfig',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
     'users'
-
 ]
 CORS_ALLOW_CREDENTIALS = True
 

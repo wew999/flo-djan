@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from users.models import logData, orderData, productionData
+from users.models import logData, orderData, myProductionData
 import json
 from django.core import serializers
 import jwt
@@ -142,7 +142,7 @@ def postorder(request):
         decoded_token = jwt.decode(cookie_value, 'tenfeettwentytheflowerman', algorithms=['HS256'])
         print(decoded_token)
         log1n = decoded_token['username']
-        frontInfo = logData.objects.get(username=log1n)
+        frontInfo = logData.objects.filter(username=log1n).first()
         print(frontInfo)
         backInfor = orderData.objects.filter( user__username=log1n)
         iden = 0
@@ -176,20 +176,43 @@ def productbase(request):
 
 @csrf_exempt
 def product(request):
-    if request.method == "POST":
-        print(request.body)
-        js_on = json.loads(request.body)
-        hdng = js_on['heading']
-        src = js_on['info']
-        prc = js_on['prc']
-        newProd = productionData(heading=hdng, info=src, price=prc)
-        newProd.save()
-        return  HttpResponse("SAVED (ADMIN)")
+    if request.method != "GET":
+        isSpecial = True
+        try:
+            js_on = json.loads(request.body)
+            hilo = js_on['special']
+        except:
+            isSpecial = False
+        if isSpecial == False:
+                print(request.body)
+                js_on = json.loads(request.body)
+                hdng = js_on['heading']
+                src = js_on['info']
+                prc = js_on['prc']
+                newProd = myProductionData(heading=hdng, info=src, price=prc)
+                newProd.save()
+                return  HttpResponse("SAVED (ADMIN)")
+        else:
+            print(request.body)
+            js_on = json.loads(request.body)
+            print(js_on)
+            print('6767676767676766767676767')
+            heading1 = js_on['special']
+            newProd = myProductionData.objects.filter(heading=heading1).first()
+            print(newProd)
+            return  HttpResponse(newProd.info)
     else:
-        newProd = productionData.objects.all()
+        newProd =myProductionData.objects.all()
         if newProd.exists():
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             newProd = serializers.serialize('json', newProd)
             return  HttpResponse(newProd)
         else:
             return  HttpResponse("Nothing")
+
+@csrf_exempt
+def functionthatdeletsdatabase(request):
+    myProductionData.objects.all().delete()
+    orderData.objects.all().delete()
+    logData.objects.all().delete()
+    return  HttpResponse("УНИЧТОЖЕНО!")

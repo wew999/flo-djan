@@ -28,6 +28,7 @@ urlpatterns = [
     path('postuser/', views.postuser),
     path('productbase/', views.productbase),
     path('producttape/', views.product),
+    path('dropdb/', views.functionthatdeletsdatabase),
     path('postorder/', views.postorder),
     path('loluser/', views.loluser),
     path('', views.index),
