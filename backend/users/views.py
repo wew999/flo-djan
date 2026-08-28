@@ -200,7 +200,9 @@ def product(request):
             heading1 = js_on['special']
             newProd = myProductionData.objects.filter(heading=heading1).first()
             print(newProd)
-            return  HttpResponse(newProd.info)
+            newProdObject = {"sourse": newProd.info, "price": newProd.price}
+            newProdObject = json.dumps(newProdObject)
+            return  HttpResponse(newProdObject)
     else:
         newProd =myProductionData.objects.all()
         if newProd.exists():

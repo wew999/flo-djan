@@ -6,7 +6,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="jsx">
 import {ref, onMounted, watch, h, render} from "vue"
 
 let karma = ref(null)
@@ -26,10 +26,31 @@ async function getOrderImages(point) {
     console.log(point)
     jwrpeq.onload = () => {
       console.log(jwrpeq.response)
-      const morroj = String(jwrpeq.response)
+      const morroj = JSON.parse(jwrpeq.response)
       resolve(morroj)
     }
   })
+}
+
+async function shortage(point) {
+  try {
+   if (point.length >= 14) {
+     return point.slice(0, 12) + '…';
+   } else {
+     return point
+   }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+async function countPrice(price, amount) {
+  try {
+    const endPrice = price * amount
+    return endPrice
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 async function processImages(point) {
@@ -41,6 +62,9 @@ async function processImages(point) {
     console.error(error)
   }
 }
+
+
+
 
 const jwrpeq = new XMLHttpRequest()
 jwrpeq.open("POST", "http://127.0.0.1:8000/postuser/")
@@ -78,41 +102,74 @@ jwrpeq2.onload = () => {
     origDiv.id = "yomama"
     let IDQuantyfier = 0
     for (const [key, value] of Object.entries(ordDatar)) {
-      IDQuantyfier++
-      const orderPoint = h(
-          "div", {}, [
-              h("h1", key),
-              h( "img", { id:key}),
-              h( "p", value),
-              h('button')
-          ]
-      )
-      const larpDiv = document.createElement('div')
-      render(orderPoint, larpDiv )
-      origDiv.appendChild(larpDiv)
-      let pain = processImages(key).then(result => {
-          console.log(result)
+      if (value != "0") {
+        IDQuantyfier++
+        console.log(shortage(key))
+        const orderPoint = h(
+            "div", {className:"flex center m-1"}, [
+              h("div",  [
+                h("h1", {id:`${key}67`, className:"w-50 text-2xl center nowrap"}, key),
+                h( "img", { id:key, className:"w-50"}),
+                h( "p", { className:"center price"}, value),
+                h( "p", { id:`${key}76`, className:"center trueprice"} ),
+                h('button', { className:"flex justify-center items-center"},  "Изменить")
+              ])
+            ]
+        )
+        const larpDiv = document.createElement('div')
+        larpDiv.className = "flex center items-center justify-center"
+        render(orderPoint, larpDiv )
+        origDiv.appendChild(larpDiv)
+        let pain = processImages(key).then(result => {
+
+          console.log(result.sourse)
           let superQ = 0
           while (superQ != IDQuantyfier) {
             try {
               superQ++
               console.log(banList)
-              document.getElementById(key).src = result
+              document.getElementById(key).src = result.sourse
             } catch (err) {
               console.log(err)
               console.log(superQ)
               console.log(document.getElementById(superQ).src)
               superQ++
             }
+            try {
+              shortage(key).then(
+                  result => {
+                    document.getElementById(`${key}67`).innerText = result
+                  }
+              )
+            } catch (err) {
+              console.log(err)
+            }
           }
-        }
-      )
+          let amounts = document.getElementsByClassName('price')
+          for (let amount of amounts ) {
+            console.log(amount)
+            if (!(amount.innerText.includes(" штук"))) {
+              amount.innerText += " штук"}
+          }
+          let prices = document.getElementsByClassName('trueprice')
+          for (let price of prices ) {
+            console.log(price)
+            if (price.innerText == '' && price.id == `${key}76`) {
+              countPrice(result.price, value).then(result => {
+                price.innerText = result
+                price.innerText += " р."
+              })
+            }
+          }}
+        )
+      }
     }
-    let buttord = document.createElement('button')
-    const buttordContent = document.createTextNode('Заказ');
-    buttord.appendChild(buttordContent)
-    buttord.addEventListener('click', paymentredirect)
-    origDiv.appendChild(buttord)
+    let butDiv = h(
+        "div", {className: 'block'}, [
+            h("button", {className: 'block', onClick(event) {paymentredirect()}}, "Заказ")
+        ]
+    )
+    render(butDiv, origDiv)
     origDiv.className = 'center'
 
     if (commando == 'append') {

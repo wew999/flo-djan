@@ -53,7 +53,7 @@ function shopcreation(headng, srcc, price) {
       h(
           'div',
           {},
-            h("img", {src:srcc}), [h("h2", {}, headng),
+            h("img", {src:srcc, className: "w-50"}), [h("h2", {className: "text-2xl"}, headng),
           h("div",
               {},
               [h("p", {}, price),
